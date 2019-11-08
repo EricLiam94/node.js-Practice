@@ -1,0 +1,20 @@
+<html>
+        <head>
+            <title>
+                Sign in 
+            </title>
+            <link rel="stylesheet"  type = "text/html" href="./CSS/userInfo.css">
+        </head>
+        <div class="login">
+                <h1>Login</h1>
+                <form method="POST" action="/myAccount">
+                    <input type="text" name="email" placeholder="Username" required="required" />
+                    <input type="text" name="password" placeholder="Password" required="required" />
+                    <button type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>
+                </form>
+                <button type="submit" class="btn btn-primary btn-block btn-large"
+                        onclick="window.location.href='./signUp'"
+                    >Sign up</button>
+            </div>
+        </body>
+</html>
