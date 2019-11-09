@@ -28,3 +28,16 @@ ul {
   li a:hover {
     background-color: #111111;
   }
+
+  footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+  .bt-play{
+    float: right;
+    right: 20;
+    bottom:0;
+    padding-right: 20;
+    margin: 10px;
+  }
