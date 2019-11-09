@@ -15,7 +15,9 @@ password:  joi.string().min(6).max(15).required()
 }
 
 //middleware
-app.use(bodyParser.urlencoded({ extended: true }))
+app.set('view engine', 'ejs');
+app.use(express.static(__dirname + "/public" ))  //Specify where the static file is
+app.use(bodyParser.urlencoded({ extended: true })) 
 app.use(express.json())
 app.use("/signUp",signUpRouter)
 app.use("/myAccount",myAccountRouter)
@@ -30,7 +32,7 @@ mongodb.connect(process.env.DB_CONNECTION,
 
 //home page
 app.get("/",(req,res)=>{
-    var home = fs.createReadStream("./html/index.html")
+    var home = fs.createReadStream("./views/index.html")
     home.pipe(res)
 })
 

@@ -5,7 +5,7 @@ const path = require('path')
 
 
 router.get("/",(req,res)=>{
-    var p = path.join(__dirname,'..','html',"signUp.html")
+    var p = path.join(__dirname,'..','views',"signUp.html")
     var value = fs.createReadStream(p)
     value.pipe(res)
 })
