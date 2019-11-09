@@ -1,0 +1,19 @@
+
+<% if(  typeof err_msg != 'undefined' && err_msg != ''){ %>
+  <% console.log(err_msg) %>
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <%= err_msg %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>    
+  <% } %>
+
+  <% if(  typeof suc_msg != 'undefined' && suc_msg != ''){ %>
+    <div class="alert alert-success  alert-dismissible fade show" role="alert">
+        <%= suc_msg %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>    
+      <% } %>

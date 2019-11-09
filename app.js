@@ -7,20 +7,32 @@ const app = express()
 const signUpRouter = require('./router/signup')
 const myAccountRouter = require('./router/myAccount')
 const POST = require("./models/Post")
-const bcryt = require("bcryptjs")
-const joi = require("joi")
-var schema = {
-email:   joi.string().email().min(5).required(),
-password:  joi.string().min(6).max(15).required()
-}
+
+
+const flash = require('connect-flash')
+const session = require("express-session")
+
+
 
 //middleware
 app.set('view engine', 'ejs');
+app.use(flash());
+app.use(session({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true,
+  }))
 app.use(express.static(__dirname + "/public" ))  //Specify where the static file is
 app.use(bodyParser.urlencoded({ extended: true })) 
 app.use(express.json())
 app.use("/signUp",signUpRouter)
 app.use("/myAccount",myAccountRouter)
+
+app.use((req,res,next)=>{
+    res.locals.suc_msg = req.flash('suc_msg')
+    res.locals.err_msg = req.flash('err_msg')
+    next()
+})
 
 // connect to mongodb
 mongodb.connect(process.env.DB_CONNECTION,
@@ -32,8 +44,7 @@ mongodb.connect(process.env.DB_CONNECTION,
 
 //home page
 app.get("/",(req,res)=>{
-    var home = fs.createReadStream("./views/index.html")
-    home.pipe(res)
+    res.render("index")
 })
 
 app.get("/myNote",(req,res)=>{
@@ -49,25 +60,8 @@ app.get("/about",(req,res)=>{
 })
 
 app.post("/",async (req,res)=>{
-    const {error} = joi.validate(req.body,schema)
-    if (error) return res.status(400).send(error.details[0].message)
-
-    const exist = await POST.findOne({email:req.body.email})
-    if (exist) return res.status(400).send("email has already been used")
-
-    var salt = await bcryt.genSalt(10)
-    var hashVal = await bcryt.hash(req.body.password,salt)
-
-    var postValue = new POST({
-        email: req.body.email,
-        password: hashVal
-    })
-    console.log(postValue.password)
-    var returnValue = await postValue.save()
-    res.send(returnValue)
+   
 })
-
-
 
 //port
 app.listen(3000,()=>{
