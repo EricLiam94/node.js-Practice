@@ -36,6 +36,17 @@ app.get("/",(req,res)=>{
     home.pipe(res)
 })
 
+app.get("/myNote",(req,res)=>{
+    res.render("myNote", {account:"user"
+    }
+    )
+})
+
+app.get("/about",(req,res)=>{
+    res.render("about",{
+        account:"user"
+    })
+})
 
 app.post("/",async (req,res)=>{
     const {error} = joi.validate(req.body,schema)
