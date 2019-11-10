@@ -31,8 +31,17 @@ app.use("/myAccount",myAccountRouter)
 app.use((req,res,next)=>{
     res.locals.suc_msg = req.flash('suc_msg')
     res.locals.err_msg = req.flash('err_msg')
+    res.locals.email = req.flash('email')
     next()
 })
+
+var sessionVarify = (req,res,next)=>{
+    if( req.session && req.session.token){
+        next()
+    }
+    else res.redirect("/")
+
+}
 
 // connect to mongodb
 mongodb.connect(process.env.DB_CONNECTION,
@@ -47,13 +56,13 @@ app.get("/",(req,res)=>{
     res.render("index")
 })
 
-app.get("/myNote",(req,res)=>{
+app.get("/myNote",sessionVarify,(req,res)=>{
     res.render("myNote", {account:"user"
     }
     )
 })
 
-app.get("/about",(req,res)=>{
+app.get("/about",sessionVarify,(req,res)=>{
     res.render("about",{
         account:"user"
     })

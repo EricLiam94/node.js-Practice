@@ -19,7 +19,8 @@ router.post("/", async (req,res)=>{
     
 
     var token =  jwt.sign({_id:result._id},process.env.TOKEN_SECRET);
-    res.header({"xxx-token":token});
+    req.session.token = token
+    req.session.email = result.email
     res.render('myAccount',{
         account:result.email,
         audioSrc: "/AudioSrc/summer.mp3"
@@ -27,8 +28,27 @@ router.post("/", async (req,res)=>{
 } )
 
 router.get("/",async (req,res)=>{
-    const result = await POST.find()
-    res.json(result)
+    if(req.session && req.session.token)
+    {
+       jwt.verify(req.session.token,process.env.TOKEN_SECRET,(err,decoded)=>{
+        if(err) return res.redirect('/')
+        else return res.render('myAccount',{
+            account:req.session.email,
+            audioSrc: "/AudioSrc/summer.mp3"
+        })
+       })
+    }
+    else{
+       res.redirect('/')}
+})
+
+router.get("/signOff",(req,res)=>{
+    if(req.session){
+        req.session.destroy((err)=>{
+            if(err) console.log(err)
+            return res.redirect('/')
+        })
+    }
 })
 
 

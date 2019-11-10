@@ -12,7 +12,6 @@ router.use((req,res,next)=>{
     res.locals.err_msg = req.flash('err_msg')
     next()
 })
-
 router.get("/",(req,res)=>{
     res.render("signUp")
 })
@@ -37,14 +36,12 @@ router.post("/", async (req,res)=>{
         email: req.body.email,
         password: hashVal
     })
-    
     console.log(postValue.password)
     postValue.save().then( ()=>{
+    
     req.flash('suc_msg',"register successfully")
+    req.flash('email',req.body.email)
     res.redirect('/')})
-
-
-
 })
 
 module.exports = router
