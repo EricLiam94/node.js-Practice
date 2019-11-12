@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const bcryt = require("bcryptjs")
 const joi = require("joi")
-const POST = require("../models/Post")
+const POST = require("../models/Post").user
 const flash = require('connect-flash')
 var schema = {
 email:   joi.string().email().min(5).required(),

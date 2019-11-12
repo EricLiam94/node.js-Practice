@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const POST = require("../models/Post");
+const POST = require("../models/Post").user;
 const bcryt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const flash = require('connect-flash')

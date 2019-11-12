@@ -6,11 +6,12 @@ require("dotenv/config")
 const app = express()
 const signUpRouter = require('./router/signup')
 const myAccountRouter = require('./router/myAccount')
-const POST = require("./models/Post")
-
-
+const POST = require("./models/Post").user
+const notePost =require("./models/Post").note
 const flash = require('connect-flash')
 const session = require("express-session")
+var sessionVarify = require("./models/verification")
+const noteRouter = require("./router/myNotes")
 
 
 
@@ -35,13 +36,7 @@ app.use((req,res,next)=>{
     next()
 })
 
-var sessionVarify = (req,res,next)=>{
-    if( req.session && req.session.token){
-        next()
-    }
-    else res.redirect("/")
-
-}
+app.use('/myNote',noteRouter)
 
 // connect to mongodb
 mongodb.connect(process.env.DB_CONNECTION,
@@ -53,14 +48,34 @@ mongodb.connect(process.env.DB_CONNECTION,
 
 //home page
 app.get("/",(req,res)=>{
+    if (req.session &&  req.session.token) return res.redirect('/myAccount')
     res.render("index")
 })
 
-app.get("/myNote",sessionVarify,(req,res)=>{
-    res.render("myNote", {account:"user"
-    }
-    )
-})
+// app.get("/myNote",sessionVarify,async (req,res)=>{
+//     var getResult = await notePost.find ({email:req.session.email})
+//     console.log(getResult)
+//     console.log(req.session.email)
+//     res.render("myNote", {account:"user",
+//     notes:getResult
+//     }
+//     )
+// })
+
+// app.post("/myNote",sessionVarify,(req,res)=>{
+//     var postValue = new notePost({
+//         email : req.session.email,
+//         title: req.body.title,
+//         content: req.body.content
+//     })
+//     postValue.save()
+//     .then(
+//         console.log("note saved")
+//     )
+    
+//     res.redirect("/myNote")
+
+// })
 
 app.get("/about",sessionVarify,(req,res)=>{
     res.render("about",{

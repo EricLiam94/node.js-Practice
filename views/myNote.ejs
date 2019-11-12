@@ -2,16 +2,50 @@
 <head>
     <title>My note</title>
     <link rel="stylesheet" type = "text/css" href= "CSS/userInfo.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
     <% include Template/header  %>
     <div >
-        <h1 style="color: aliceblue;">My note</h1>
+        <h1 style="color: aliceblue; margin-left: 30px;">My note</h1>
     </div>
-</body>
+    <div style="text-align: center; display: flex">
+        <div style="width: 60%; height: 50%; margin: 0 auto; background: #d1d0d0; color: #fff; border: 1px solid rgba(0,0,0,0.3);
+        border-radius: 4px">
+           <div style="width: 100%; position: relative;"> <h1 style="color: black; float: left; margin-left: 20px;" >
+             New Note  </h1></div>
+            <br></br>
+           <br></br>
+           <form  style="width: 100%;" method="POST" action="/myNote">
+                <input style="width: 80%; box-shadow:#fff" type="text" name="title" placeholder="Title" required="required">
+                <textarea style="width: 80%; height: 40%;" placeholder="Content" name="content" required="required"></textarea>
+                <br></br>
+                <button style="width: 20%; float:right; margin-right: 30px; margin-bottom: 30px;" type="submit" class="btn btn-primary btn-block btn-large"> Submit </button>
+            </form>
+        </div>
+      </div>
+      <% for(var i=0; i < notes.length;i++) { %>
+      <br></br>
+      <br></br>
+      <div style="text-align: center;display: flex;">
+        <div style="width: 60%; height: 40%; margin: 0 auto; background: #d1d0d0; color: #fff; border: 1px solid rgba(0,0,0,0.3);
+        border-radius: 4px">
+           <h1 style="color: black;"> <%= notes[i].title %></h1>
+           <textarea readonly="readonly" style="width: 80%; "><%= notes[i].content %> </textarea>
+           <br></br>
+           <br></br>
+           <form method="POST" action="/myNote/delete">
+        <input  style= "width:100%" type="hidden" name="id" value= <%= notes[i]._id %>>
+        <input style="width: 20%;" type="submit" class="btn btn-warning" value="Delete" />
     
-
-
-
+        </form>
+        </div>
+        
+    </div>
+      <% } %>
+</body>
 
 </html>

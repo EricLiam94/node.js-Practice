@@ -13,4 +13,25 @@ var schema = mongodb.Schema({
 })
 
 
-module.exports = mongodb.model("user",schema)
+var noteSchema = mongodb.Schema({
+    email:{
+        type:String,
+        required:true
+    },
+    title:{
+        type:String,
+        required:true
+    },
+    content:{
+        type:String,
+        require:true
+    },
+    date:{
+        type:Date,
+        default: new Date()
+    }
+})
+
+
+module.exports.user = mongodb.model("user",schema)
+module.exports.note = mongodb.model("note",noteSchema)
