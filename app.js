@@ -69,6 +69,6 @@ app.get("/about", sessionVarify, (req, res) => {
 app.post("/", async (req, res) => {});
 
 //port
-app.listen(3000, () => {
+app.listen(process.env.PORT||3000, () => {
   console.log("port 3000 is connected");
 });
